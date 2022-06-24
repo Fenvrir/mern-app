@@ -1,3 +1,28 @@
-.link{
-    color: aqua;
+$mainColor: #04aa6d;
+$mainColorActive: #059862;
+
+.auth_inp:focus {
+  border-bottom: 2px solid $mainColor !important;
+  box-shadow: 0 1px 0 0 $mainColor !important;  
+    & + label {
+        color: $mainColor !important; 
+        &:focus{
+            color: $mainColor !important;
+        }
+    }
+}
+
+
+
+.auth_form-btn {
+  background-color: $mainColor;
+  &:hover,
+  &:visited,
+  &:active,
+  &:focus {
+    background-color: $mainColorActive;
+  }
+  &:first-child {
+    margin-right: 10px;
+  }
 }
