@@ -11,7 +11,8 @@ router.post(
     '/register',
     [
         check('email', 'Incorrect email').isEmail(),
-        check('password', 'Min length must be 6 symbols').isLength({ min: 6 })
+        check('password', 'Min length must be 6 symbols')
+        .isLength({ min: 6 })
     ],
     async (req, res) => {
         try {
@@ -20,25 +21,27 @@ router.post(
             if (!errors.isEmpty()) {
                 return res.status(400).json({
                     // array or toArray
-                    errors: errors.toArray(),
+                    errors: errors.array(),
                     message: 'Incorrect reg data'
                 })
             }
 
-            const { userName, email, password, date } = req.body;
+            // const { userName, email, password, date } = req.body;
+            const {  email, password } = req.body;
 
             const candidateEmail = await User.findOne({ email });
-            const candidateName = await User.findOne({ userName });
+            // const candidateName = await User.findOne({ userName });
 
             if (candidateEmail) {
                 return res.status(400).json({ message: 'Такой email уже занят.' });
             }
-            if (candidateName) {
-                return res.status(400).json({ message: 'Такое имя уже занято.' });
-            }
+            // if (candidateName) {
+            //     return res.status(400).json({ message: 'Такое имя уже занято.' });
+            // }
 
             const hashPassword = await bcrypt.hash(password, 12);
-            const user = new User({ userName, password: hashPassword, email, date });
+            // const user = new User({ userName, password: hashPassword, email, date });
+            const user = new User({email,  password: hashPassword });
 
             await user.save();
 

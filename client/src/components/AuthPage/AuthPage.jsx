@@ -3,11 +3,19 @@ import React, { useState } from "react";
 import { useHttp } from "../Hooks/Http.hook";
 
 const AuthPage = () => {
+  const { loading, request } = useHttp();
   const [form, setForm] = useState({ email: "", password: "" });
-  const {loading, request, error} = useHttp();
-  const changeHandler = ev => {
-    setForm({...form, [ev.target.name]: ev.target.value});
-  }
+
+  const changeHandler = (ev) => {
+    setForm({ ...form, [ev.target.name]: ev.target.value });
+  };
+
+  const registerHandler = async () => {
+    try {
+      const data = await request("/api/auth/register", "POST", { ...form });
+      console.log(data);
+    } catch (e) {}
+  };
 
   return (
     <div className="auth_form row">
@@ -37,10 +45,17 @@ const AuthPage = () => {
             </div>
           </div>
           <div className="card-action ">
-            <button className="auth_form-btn btn waves-effect waves-light">
+            <button
+              disabled={loading}
+              className="auth_form-btn btn waves-effect waves-light"
+            >
               Login
             </button>
-            <button className="auth_form-btn btn waves-effect waves-light">
+            <button
+              disabled={loading}
+              onClick={registerHandler}
+              className="auth_form-btn btn waves-effect waves-light"
+            >
               Sign up
             </button>
           </div>
