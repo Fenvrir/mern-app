@@ -1,10 +1,17 @@
 import "./AuthPage.scss";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useHttp } from "../Hooks/Http.hook";
+import { useMessage } from "../Hooks/Message.hook";
 
 const AuthPage = () => {
-  const { loading, request } = useHttp();
+  const message = useMessage();
+  const { loading, request, error,clearError } = useHttp();
   const [form, setForm] = useState({ email: "", password: "" });
+
+  useEffect(() => {
+    message(error);
+    clearError();
+  }, [error, message, clearError]);
 
   const changeHandler = (ev) => {
     setForm({ ...form, [ev.target.name]: ev.target.value });

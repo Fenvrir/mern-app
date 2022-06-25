@@ -31,27 +31,26 @@ router.post(
 
             const candidateEmail = await User.findOne({ email });
             // const candidateName = await User.findOne({ userName });
-
+            
             if (candidateEmail) {
                 return res.status(400).json({ message: 'Такой email уже занят.' });
             }
             // if (candidateName) {
             //     return res.status(400).json({ message: 'Такое имя уже занято.' });
             // }
-
+           
             const hashPassword = await bcrypt.hash(password, 12);
             // const user = new User({ userName, password: hashPassword, email, date });
             const user = new User({email,  password: hashPassword });
-
+           
             await user.save();
-
+            
             res.status(201).json({ message: 'User is create' });
         
         } catch (err) {
-            res.status(500).json({ message: 'Что-то пошло не так, попробуйте снова' });
+            res.status(500).json({ message: 'Something go wrong' });
         }
     })
-
 
 // api/auth/login
 router.post(
