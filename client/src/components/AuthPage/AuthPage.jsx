@@ -13,15 +13,26 @@ const AuthPage = () => {
     clearError();
   }, [error, message, clearError]);
 
+  useEffect(() => {
+    window.M.updateTextFields()
+  }, [])
+
   const changeHandler = (ev) => {
     setForm({ ...form, [ev.target.name]: ev.target.value });
   };
 
+  const loginHandler = async () => {
+    try {
+      const data = await request('/api/auth/login', 'POST', {...form});
+      message(data.message);
+    } catch(er) {}
+  }
+
   const registerHandler = async () => {
     try {
       const data = await request("/api/auth/register", "POST", { ...form });
-      console.log(data);
-    } catch (e) {}
+      message(data.message);
+    } catch (er) {}
   };
 
   return (
@@ -54,6 +65,7 @@ const AuthPage = () => {
           <div className="card-action ">
             <button
               disabled={loading}
+              onClick={loginHandler}
               className="auth_form-btn btn waves-effect waves-light"
             >
               Login

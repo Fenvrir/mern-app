@@ -28,7 +28,7 @@ router.post(
 
             // const { userName, email, password, date } = req.body;
             const {  email, password } = req.body;
-
+            
             const candidateEmail = await User.findOne({ email });
             // const candidateName = await User.findOne({ userName });
             
@@ -38,13 +38,13 @@ router.post(
             // if (candidateName) {
             //     return res.status(400).json({ message: 'Такое имя уже занято.' });
             // }
-           
+            
             const hashPassword = await bcrypt.hash(password, 12);
             // const user = new User({ userName, password: hashPassword, email, date });
             const user = new User({email,  password: hashPassword });
-           
-            await user.save();
             
+            await user.save();
+        
             res.status(201).json({ message: 'User is create' });
         
         } catch (err) {
@@ -84,13 +84,13 @@ router.post(
             if (!isMatch) {
                 return res.status(400).json({ message: 'Incorrect email or password' });
             }
-
+            
             const token = jwt.sign(
-                { iserId: user.id },
-                config.get('jwtSecrete'),
+                { userId: user.id },
+                config.get('jwtSecret'),
                 { expiresIn: '1h' },
             );
-
+            
             res.json({ token, userId: user.id });
 
         } catch (err) {

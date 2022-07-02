@@ -14,7 +14,7 @@
     "react",
     "node.js"
   ],
-  "author": "Mikhail Nikulaichev <fenvrir@yandex.ru>",
+  "author": "Mikhail <fenvrir@yandex.ru>",
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
